@@ -17,6 +17,7 @@ class Nix(AutotoolsPackage):
     version('2.0.4', sha256='49c78122b20e3ad894f546dd2a2f01c32ec528de790314820b1f1335276e3c22')
 
     patch('fix-doc-build.patch')
+    patch('fix-nfs4.patch', when='+nfs')
 
     variant('storedir', values=str, default='none',
             description='path of the Nix store (defaults to /nix)')
@@ -26,6 +27,8 @@ class Nix(AutotoolsPackage):
             description='Build and install documentation')
     variant('sandboxing', default=True,
             description='Enable build isolation')
+    variant('nfs', default=False,
+            description='Installation on an NFS system')
 
     depends_on('autoconf', type='build')
     depends_on('automake', type='build')
