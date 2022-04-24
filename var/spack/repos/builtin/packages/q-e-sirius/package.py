@@ -1,4 +1,4 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -14,8 +14,8 @@ class QESirius(CMakePackage):
 
     maintainers = ['simonpintarelli']
 
-    version('develop-ristretto', branch='ristretto')
-    version('6.7-rc1-sirius', tag='v6.7-rc1-sirius')
+    version('develop-ristretto', branch='ristretto', submodules=True)
+    version('6.7-rc1-sirius', tag='v6.7-rc1-sirius', submodules=True)
 
     variant('mpi', default=True, description='Builds with MPI support')
     variant('openmp', default=True, description='Enables OpenMP support')
@@ -35,6 +35,7 @@ class QESirius(CMakePackage):
     depends_on('hdf5', when='+hdf5')
 
     depends_on('git', type='build')
+    depends_on('pkgconfig', type='build')
 
     conflicts('~mpi', when='+scalapack', msg='SCALAPACK requires MPI support')
     conflicts('~scalapack', when='+elpa', msg='ELPA requires SCALAPACK support')

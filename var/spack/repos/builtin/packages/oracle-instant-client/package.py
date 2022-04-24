@@ -1,10 +1,11 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack import *
 import glob
+
+from spack import *
 
 
 def oracleclient_releases():
@@ -53,6 +54,8 @@ class OracleInstantClient(Package):
             url, sha256 = atts
             condition = "@{0}".format(oracle_version)
             resource(name=rname, url=url, sha256=sha256, when=condition, placement=rname)
+
+    depends_on('libaio', type='link')
 
     def install(self, spec, prefix):
         mkdirp(prefix.bin)
