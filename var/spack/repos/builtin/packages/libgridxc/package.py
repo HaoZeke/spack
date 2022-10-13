@@ -15,8 +15,10 @@ class Libgridxc(MakefilePackage):
 
     homepage = "https://gitlab.com/siesta-project/libraries/libgridxc"
     git = "https://gitlab.com/siesta-project/libraries/libgridxc.git"
-    url = "https://gitlab.com/siesta-project/libraries/libgridxc/-/archive/libgridxc-0.9.6/libgridxc-libgridxc-0.9.6.tar.gz"
+    url = "https://gitlab.com/siesta-project/libraries/libgridxc/-/archive/libgridxc-0.10.1/libgridxc-libgridxc-0.10.1.tar.gz"
+    maintainers = ["HaoZeke"]
 
+    version("0.10.1", sha256="c6b74457e516cba32c334ae4d7b027b18022d16733e05da7570a1ba7f4e4ada2")
     version("0.9.6", sha256="3b89ccc02d65729ea2d7cb291ae1d9b53acd65c1fd144e8846362cffb71b114a")
     version("0.9.5", sha256="98aa34dbaffe360ff332606eebb7c842994244a3114015d89c5a3850298c40aa")
     version("0.9.1", sha256="346735e30dd3a4099532a985b7a491f6d2b882954a527bdac655d87232be5341")
@@ -31,6 +33,7 @@ class Libgridxc(MakefilePackage):
     depends_on("libtool@2.4.2:", type="build")
     depends_on("m4", type="build")
     depends_on("libxc@:4.3.4", when="@0.8.0:")
+    depends_on("libxc@5:", when="@0.10.:")
 
     build_directory = "build"
 
