@@ -8,7 +8,7 @@ import os
 from spack.package import *
 
 
-class Libgridxc(MakefilePackage):
+class Libgridxc(AutotoolsPackage):
     """A library to compute the exchange and correlation energy and potential
     in spherical (i.e. an atom) or periodic systems.
     """
@@ -33,7 +33,7 @@ class Libgridxc(MakefilePackage):
     depends_on("libtool@2.4.2:", type="build")
     depends_on("m4", type="build")
     depends_on("libxc@:4.3.4", when="@0.8.0:0.9.6")
-    depends_on("libxc@5:", when="@0.10.:")
+    depends_on("libxc@5.1.5", when="@0.10.1")
 
     build_directory = "build"
 
