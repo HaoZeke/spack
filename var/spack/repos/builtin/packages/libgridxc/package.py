@@ -32,7 +32,7 @@ class Libgridxc(MakefilePackage):
     depends_on("automake@1.14:", type="build")
     depends_on("libtool@2.4.2:", type="build")
     depends_on("m4", type="build")
-    depends_on("libxc@:4.3.4", when="@0.8.0:")
+    depends_on("libxc@:4.3.4", when="@0.8.0:0.9.6")
     depends_on("libxc@5:", when="@0.10.:")
 
     build_directory = "build"
