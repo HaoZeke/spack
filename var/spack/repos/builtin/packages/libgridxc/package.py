@@ -8,7 +8,7 @@ import os
 from spack.package import *
 
 
-class Libgridxc(AutotoolsPackage):
+class Libgridxc(AutotoolsPackage, MakefilePackage):
     """A library to compute the exchange and correlation energy and potential
     in spherical (i.e. an atom) or periodic systems.
     """
@@ -28,12 +28,17 @@ class Libgridxc(AutotoolsPackage):
     version("0.8.0", sha256="ff89b3302f850d1d9f651951e4ade20dfa4c71c809a2d86382c6797392064c9c")
     version("0.7.6", sha256="058b80f40c85997eea0eae3f15b7cc8105f817e59564106308b22f57a03b216b")
 
+    variant("mpi", description="Build with MPI support", default=False)
+    variant("libxc", description="Build with LIBXC support", default=True)
+    depends_on("mpi", when="+mpi")
+    depends_on("libxc", when="+libxc")
+
     depends_on("autoconf@2.69:", type="build")
     depends_on("automake@1.14:", type="build")
     depends_on("libtool@2.4.2:", type="build")
     depends_on("m4", type="build")
-    depends_on("libxc@:4.3.4", when="@0.8.0:0.9.6")
-    depends_on("libxc@5.1.5", when="@0.10.1")
+    depends_on("libxc@:4.3.4", when="@0.8.0:0.9.6+libxc")
+    depends_on("libxc@5.1.5", when="@0.10.1+libxc")
 
     build_directory = "build"
 
@@ -47,8 +52,12 @@ class Libgridxc(AutotoolsPackage):
 
     @property
     def build_targets(self):
-        args = ["PREFIX={0}".format(self.prefix), "FC=fc"]
-        if self.spec.satisfies("@0.8.0:"):
+        args = ["PREFIX={0}".format(self.prefix),
+                "FC={0}".format(spack_fc),
+                "FC_SERIAL={0}".format(spack_fc)]
+        if self.spec.satisfies("+mpi"):
+            args.append("FC_PARALLEL={0}".format(spec["mpi"].mpifc))
+        if self.spec.satisfies("@0.8.0:") and self.spec.variants["libxc"]:
             args += ["WITH_LIBXC=1", "LIBXC_ROOT={0}".format(self.spec["libxc"].prefix)]
         return args
 
