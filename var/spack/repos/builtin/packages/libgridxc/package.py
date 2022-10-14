@@ -40,8 +40,6 @@ class Libgridxc(AutotoolsPackage, MakefilePackage):
     depends_on("libxc@:4.3.4", when="@0.8.0:0.9.6+libxc")
     depends_on("libxc@5.1.5", when="@0.10.1+libxc")
 
-    build_directory = "build"
-
     parallel = False
 
     def edit(self, spec, prefix):
@@ -62,14 +60,4 @@ class Libgridxc(AutotoolsPackage, MakefilePackage):
         return args
 
     def install(self, spec, prefix):
-        mkdirp(join_path(self.prefix, "share", "org.siesta-project"))
-        install(
-            join_path(self.prefix, "gridxc.mk"),
-            join_path(self.prefix, "share", "org.siesta-project", "gridxc.mk"),
-        )
-        os.remove(join_path(self.prefix, "gridxc.mk"))
-        install(
-            join_path(self.prefix, "libxc.mk"),
-            join_path(self.prefix, "share", "org.siesta-project", "libxc.mk"),
-        )
-        os.remove(join_path(self.prefix, "libxc.mk"))
+        install_tree(".", prefix)
